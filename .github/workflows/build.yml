@@ -17,6 +17,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Giai nen file .zip neu co (neu ban upload ca file zip len repo)
+        shell: pwsh
+        run: |
+          Get-ChildItem -Path . -Filter *.zip -File | ForEach-Object {
+            Write-Host "Extracting $($_.Name)"
+            Expand-Archive -Path $_.FullName -DestinationPath . -Force
+          }
+
       - name: Prepare project (tu tim hoac tu tao package.json)
         shell: pwsh
         run: |
@@ -98,3 +106,4 @@ jobs:
         with:
           files: ${{ env.APP_DIR }}/dist/*.exe
           generate_release_notes: true
+          
